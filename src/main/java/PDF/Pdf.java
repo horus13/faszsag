@@ -1,18 +1,28 @@
 package PDF;
 
+import java.sql.Blob;
+
 public class Pdf {
 
-    Long books;
+    String id;
     String title;
     String author;
-    String file;
+    Blob file;
 
-    public Long getBooks() {
-        return books;
+    public Blob getFile() {
+        return file;
     }
 
-    public void setBooks(Long books) {
-        this.books = books;
+    public void setFile(Blob file) {
+        this.file = file;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getTitle() {
@@ -31,13 +41,6 @@ public class Pdf {
         this.author = author;
     }
 
-    public String getFile() {
-        return file;
-    }
-
-    public void setFile(String file) {
-        this.file = file;
-    }
 
 
 
@@ -46,10 +49,10 @@ public class Pdf {
     @Override
     public String toString() {
         return "Pdf{" +
-                "books=" + books +
+                "id=" + id +
                 ", title='" + title + '\'' +
                 ", author='" + author + '\'' +
-                ", file='" + file + '\'' +
+                ", fileName='" + file + '\'' +
                 '}';
     }
 }

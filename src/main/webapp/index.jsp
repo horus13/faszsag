@@ -10,20 +10,20 @@
 </head>
 <body>
 <h1>Book Upload</h1>
-<form action="pdf" method="Post">
+<form action="pdf" method="Post" >
     <div class="inner">
         <div class="bk">
-            <label for="Title">Title</label>
-            <input type="text" name="BookTitle" value="" placeholder="Enter Title">
+            <%--@declare id="title"--%><label for="Title">Title</label>
+            <input type="text" name="title"  placeholder="Enter Title" id="title">
         </div>
         <div class="ath">
-            <label for="Author">Author</label>
-            <input type="text" name="Author" value="" placeholder="Enter Author">
+            <%--@declare id="author"--%><label for="Author">Author</label>
+            <input type="text" name="author" placeholder="Enter Author" id="author">
         </div>
 
         <div class="fl">
             <label for="upload" id="labelupload"><i class="fas fa-upload" id="icoana"></i>Upload PDF</label>
-            <input type="file" name="file" value="" id="upload">
+            <input type="file" name="file"  id="upload">
         </div>
 
 

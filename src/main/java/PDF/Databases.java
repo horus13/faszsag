@@ -1,5 +1,8 @@
 package PDF;
 
+import javax.servlet.ServletException;
+import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.sql.*;
 import java.util.List;
 import java.util.ArrayList;
@@ -14,17 +17,20 @@ public class Databases {
     private final String password = "fasttrackit_dev";
 
 
-    public int register (String title, String author, String location) {
+    public int register (String title, String author, InputStream file) {
 
         int found = -1;
 
         try {
             Class.forName("org.postgresql.Driver");
             Connection conn = DriverManager.getConnection("jdbc:postgresql://54.93.65.5:5432/gabo8", "fasttrackit_dev", "fasttrackit_dev");
-            PreparedStatement pSt = conn.prepareStatement("INSERT INTO Library (title, author, location) VALUES (?,?,?)");
+            PreparedStatement pSt = conn.prepareStatement("INSERT INTO booklet (title, author, file) VALUES (?,?,?)");
+
+
+
             pSt.setString(1, title);
             pSt.setString(2, author);
-            pSt.setString(3, location);
+            pSt.setBinaryStream(3, file);
             int rowsInserted = pSt.executeUpdate();
             pSt.close();
             conn.close();
@@ -42,33 +48,32 @@ public class Databases {
     }
     public static List<Pdf> getPdf() throws ClassNotFoundException, SQLException {
 
-        Class.forName("org.postgresql.Driver");
-        Connection conn = DriverManager.getConnection("jdbc:postgresql://54.93.65.5:5432/gabo8", "fasttrackit_dev", "fasttrackit_dev");
-        Statement st = conn.createStatement();
-        String query = "SELECT * FROM Library";
+        List<Pdf> Pdfs = new ArrayList<Pdf>();
+        try {
 
-        ResultSet rs = st.executeQuery(query);
 
-        List ListaDeObiecte = new ArrayList<Pdf>();
-        while (rs.next()) {
-            String title = rs.getString("title").trim();
-            String author = rs.getString("author").trim();
-            String location = rs.getString("location").trim();
-            long id = rs.getLong("id");
-            Pdf p = new Pdf();
-            p.books = id;
-            p.title = title;
-            p.author= author;
-            p.file = location;
-            ListaDeObiecte.add(p);
+            Class.forName("org.postgresql.Driver");
+            Connection conn = DriverManager.getConnection("jdbc:postgresql://54.93.65.5:5432/gabo8", "fasttrackit_dev", "fasttrackit_dev");
+            PreparedStatement pSt = conn.prepareStatement("SELECT * FROM booklet");
+            ResultSet result = pSt.executeQuery();
+
+            while (result.next()) {
+                // gets file name and file blob data
+
+
+                Pdf currentPdf = new Pdf();currentPdf.setId(result.getString("id"));
+                currentPdf.setTitle(result.getString("title"));
+                currentPdf.setAuthor(result.getString("author"));
+                Pdfs.add(currentPdf);
+
+            }
+
+        } catch (Exception e) {
+
         }
 
 
-        rs.close();
-        st.close();
-        conn.close();
-        return ListaDeObiecte;
-
+        return Pdfs;
     }
 
 

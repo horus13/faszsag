@@ -7,8 +7,12 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
+import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,15 +27,13 @@ public class PdfServlet extends HttpServlet {
 
         String title = request.getParameter("title");
         String author = request.getParameter("author");
-        String location = request.getParameter("file");
+        String file = request.getParameter("file");
+        InputStream fileStream = new ByteArrayInputStream(file.getBytes());
 
-        System.out.println("title: " + title);
-        System.out.println("author: " + author);
-        System.out.println("file: " + location);
 
         Databases database = new Databases();
-        database.register(title, author, location);
-       //response.sendRedirect("http://localhost:8080/");
+        database.register(title, author, fileStream);
+        response.sendRedirect("http://localhost:8081/library.jsp");
 
     }
 
