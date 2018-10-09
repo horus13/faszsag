@@ -55,7 +55,7 @@ public class PdfDownloadServlet extends HttpServlet {
         } catch (Exception e) {
 
         }
-        response= img64str;
+
     }
 
 
